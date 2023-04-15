@@ -1,32 +1,30 @@
-# python3
+# python 3
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    
-    
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
-    
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
+    ievade = input().strip()
+    if "I" in ievade:
+        paterna= input().strip()
+        teksts = input().strip()
+    else:
+        with open("tests/06") as file:
+            paterna = file.readline().strip()
+            teksts = file.readline().strip()
+    return paterna, teksts
 
-def print_occurrences(output):
-    # this function should control output, it doesn't need any return
-    print(' '.join(map(str, output)))
+def print_occurrences(izvade):
+    print(" ".join(map(str, izvade)))
 
-def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
+def get_occurrences(paterna, teksts):
+    paradibas = []
+    if len(paterna) > len(teksts):
+        return paradibas
+    paternas_hash = hash(paterna)
+    for i in range(len(teksts)-len(paterna)+1):
+        if paternas_hash == hash(teksts[i:i+len(paterna)]) and teksts[i:i+len(paterna)] == paterna:
+            paradibas.append(str(i))
+    return paradibas
 
-    # and return an iterable variable
-    return [0]
-
-
-# this part launches the functions
-if __name__ == '__main__':
-    print_occurrences(get_occurrences(*read_input()))
-
+if __name__ == "__main__":
+    paterna, teksts = read_input()
+    paradibas = get_occurrences(paterna, teksts)
+    print_occurrences(paradibas)
