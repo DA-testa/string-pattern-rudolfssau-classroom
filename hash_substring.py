@@ -9,7 +9,7 @@ def read_input():
         with open("tests/06") as file:
             paterna = file.readline().strip()
             teksts = file.readline().strip()
-    return paterna, teksts
+    return (paterna, teksts)
 
 def print_occurrences(izvade):
     print(" ".join(map(str, izvade)))
@@ -18,10 +18,11 @@ def get_occurrences(paterna, teksts):
     paradibas = []
     if len(paterna) > len(teksts):
         return paradibas
-    paternas_hash = hash(paterna)
-    for i in range(len(teksts)-len(paterna)+1):
-        if paternas_hash == hash(teksts[i:i+len(paterna)]) and teksts[i:i+len(paterna)] == paterna:
-            paradibas.append(str(i))
+    pat_hash = hash(paterna)
+    teksta_h = [hash(teksts[i:i + len(paterna)]) for i in range(len(teksts) - len(paterna) + 1)]
+    for i in range(len(teksta_h)):
+        if pat_hash == teksta_h[i] and teksts[i:i + len(paterna)] == paterna:
+            paradibas.append(i)
     return paradibas
 
 if __name__ == "__main__":
