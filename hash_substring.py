@@ -1,32 +1,46 @@
-# python3
+# python 3
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    
-    
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
-    
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
+    ievade = input().strip()
+    if "I" in ievade:
+        paterna= input().strip()
+        teksts = input().strip()
+    else:
+        with open("tests/06") as file:
+            paterna = file.readline().strip()
+            teksts = file.readline().strip()
+    return (paterna, teksts)
 
-def print_occurrences(output):
-    # this function should control output, it doesn't need any return
-    print(' '.join(map(str, output)))
-
-def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
-
-    # and return an iterable variable
-    return [0]
+def print_occurrences(izvade):
+    print(" ".join(map(str, izvade)))
 
 
-# this part launches the functions
-if __name__ == '__main__':
-    print_occurrences(get_occurrences(*read_input()))
+def get_occurrences(paterna, teksts, q, w):
+    paradibas = []
+    lenTeksts = len(teksts)
+    lenPaterna = len(paterna)
+    a = pow(q, lenPaterna - 1) % w
+    b = t = 0
+    for i in range(lenPaterna):
+        b = (q * b + ord(paterna[i])) % w
+        t = (q * t + ord(teksts[i])) % w
+    for s in range(lenTeksts - lenPaterna + 1):
+        if b == t:
+            match = True
+            for i in range(lenPaterna):
+                if paterna[i] != teksts[s + i]:
+                    match = False
+                    break
+            if match:
+                paradibas.append(s)
+        if s < lenTeksts - lenPaterna:
+            t = (t - a * ord(teksts[s])) % w
+            t = (t * q + ord(teksts[s + lenPaterna])) % w
+            t = (t + w) % w
+    return paradibas
 
+if __name__ == "__main__":
+    q, w = 256, 13
+    paterna, teksts = read_input()
+    paradibas = get_occurrences(paterna, teksts, q, w)
+    print_occurrences(paradibas)
